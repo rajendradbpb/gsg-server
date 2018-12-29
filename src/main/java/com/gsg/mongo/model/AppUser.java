@@ -2,11 +2,8 @@ package com.gsg.mongo.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.annotation.Id;
@@ -17,7 +14,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.gsg.error.GenericException;
 import com.gsg.mongo.model.master.SchemeData;
+import com.ibm.icu.math.BigDecimal;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Document(collection = "appuser")
 @TypeAlias("AppUser")
@@ -59,11 +62,38 @@ public class AppUser extends Auditable {
 	private List<SchemeData> schemes = new ArrayList<>();
 
 	private ServiceArea serviceArea = new ServiceArea();
-
+	
+	
+	// Workshop owner
+	private String wName ;
+//	private String wEmail ;
+//	private String wMobile ;
+	private float wAge;
+	private List<String> wVehicleBrandsRepaired;
+	private List<String> wOtherBranchNumber;
+	private List<AddressBook> wOAddress = new ArrayList<>();
+	private int wAvgCarsRptDly;
+	private double wMRevenue;
+	private List<String> wSMechs;
+	private List<String> wMechs;
+	private List<String> wHelpers;
+	private List<String> wWashers;
+	private List<String> wVehicleTypesRepaired;
+	private List<String> wServicesProvided;
+	private List<String> wFacilities;
+	private Date appointmentDate;
+	private MapLocation wLocation;
+	
 	public AppUser(String email, String contactNbr, String password) {
 		this.email = email;
 		this.password = password;
 		this.contactNbr = contactNbr;
+	}
+	public AppUser(String email, String contactNbr, String password,List<String> roles ) {
+		this.email = email;
+		this.password = password;
+		this.contactNbr = contactNbr;
+		this.roles = roles;
 	}
 
 	public AppUser() {
@@ -252,6 +282,104 @@ public class AppUser extends Auditable {
 	public void setServiceArea(ServiceArea serviceArea) {
 		this.serviceArea = serviceArea;
 	}
+	
+	public String getwName() {
+		return wName;
+	}
+	public void setwName(String wName) {
+		this.wName = wName;
+	}
+	
+	public float getwAge() {
+		return wAge;
+	}
+	public void setwAge(float wAge) {
+		this.wAge = wAge;
+	}
+	public List<String> getwVehicleBrandsRepaired() {
+		return wVehicleBrandsRepaired;
+	}
+	public void setwVehicleBrandsRepaired(List<String> wVehicleBrandsRepaired) {
+		this.wVehicleBrandsRepaired = wVehicleBrandsRepaired;
+	}
+	public List<String> getwOtherBranchNumber() {
+		return wOtherBranchNumber;
+	}
+	public void setwOtherBranchNumber(List<String> wOtherBranchNumber) {
+		this.wOtherBranchNumber = wOtherBranchNumber;
+	}
+	public List<AddressBook> getwOAddress() {
+		return wOAddress;
+	}
+	public void setwOAddress(List<AddressBook> wOAddress) {
+		this.wOAddress = wOAddress;
+	}
+	public int getwAvgCarsRptDly() {
+		return wAvgCarsRptDly;
+	}
+	public void setwAvgCarsRptDly(int wAvgCarsRptDly) {
+		this.wAvgCarsRptDly = wAvgCarsRptDly;
+	}
+	public double getwMRevenue() {
+		return wMRevenue;
+	}
+	public void setwMRevenue(double wMRevenue) {
+		this.wMRevenue = wMRevenue;
+	}
+	public List<String> getwSMechs() {
+		return wSMechs;
+	}
+	public void setwSMechs(List<String> wSMechs) {
+		this.wSMechs = wSMechs;
+	}
+	public List<String> getwMechs() {
+		return wMechs;
+	}
+	public void setwMechs(List<String> wMechs) {
+		this.wMechs = wMechs;
+	}
+	public List<String> getwHelpers() {
+		return wHelpers;
+	}
+	public void setwHelpers(List<String> wHelpers) {
+		this.wHelpers = wHelpers;
+	}
+	public List<String> getwWashers() {
+		return wWashers;
+	}
+	public void setwWashers(List<String> wWashers) {
+		this.wWashers = wWashers;
+	}
+	public List<String> getwVehicleTypesRepaired() {
+		return wVehicleTypesRepaired;
+	}
+	public void setwVehicleTypesRepaired(List<String> wVehicleTypesRepaired) {
+		this.wVehicleTypesRepaired = wVehicleTypesRepaired;
+	}
+	public List<String> getwServicesProvided() {
+		return wServicesProvided;
+	}
+	public void setwServicesProvided(List<String> wServicesProvided) {
+		this.wServicesProvided = wServicesProvided;
+	}
+	public List<String> getwFacilities() {
+		return wFacilities;
+	}
+	public void setwFacilities(List<String> wFacilities) {
+		this.wFacilities = wFacilities;
+	}
+	public Date getAppointmentDate() {
+		return appointmentDate;
+	}
+	public void setAppointmentDate(Date appointmentDate) {
+		this.appointmentDate = appointmentDate;
+	}
+	public MapLocation getwLocation() {
+		return wLocation;
+	}
+	public void setwLocation(MapLocation wLocation) {
+		this.wLocation = wLocation;
+	}
 
 	@JsonInclude(Include.NON_EMPTY)
 	@Getter
@@ -263,6 +391,9 @@ public class AppUser extends Auditable {
 		private String apartmentName;
 		private String street;
 		private String locality;
+		private String landmark;
+		
+
 		private String city;
 		private String district;
 		private String po_ps_name;
@@ -275,7 +406,13 @@ public class AppUser extends Auditable {
 		public AddressBook() {
 			//
 		}
-		
+		public String getLandmark() {
+			return landmark;
+		}
+
+		public void setLandmark(String landmark) {
+			this.landmark = landmark;
+		}
 		public String getHouseNbr() {
 			return houseNbr;
 		}
@@ -382,7 +519,8 @@ public class AppUser extends Auditable {
 			.append(StringUtils.trimToEmpty(po_ps_name).isEmpty()?"":StringUtils.trimToEmpty(po_ps_name)+", ")
 			.append(StringUtils.trimToEmpty(city).isEmpty()?"":StringUtils.trimToEmpty(city)+", ")
 			.append(StringUtils.trimToEmpty(state).isEmpty()?"":StringUtils.trimToEmpty(state)+", ")
-			.append(StringUtils.trimToEmpty(country).isEmpty()?"":StringUtils.trimToEmpty(country));
+			.append(StringUtils.trimToEmpty(country).isEmpty()?"":StringUtils.trimToEmpty(country))
+			.append(StringUtils.trimToEmpty(landmark).isEmpty()?"":StringUtils.trimToEmpty(landmark));
 			return add.toString();
 		}
 
@@ -438,6 +576,40 @@ public class AppUser extends Auditable {
 			return this.lat + "," + this.lng;
 		}
 
+	}
+
+	/*
+	 * Used to create workshop specific object from AppUser object with setter 
+	 * */
+	public AppUser createWorkShopUser(WorkShopBean workShopBean) throws GenericException{
+		// validation for server end fields
+		if(workShopBean.getEmail() == null)
+			throw new GenericException("Invalid Email");
+		if(workShopBean.getContactNbr() == null)
+			throw new GenericException("Invalid ContactNbr");
+		if(workShopBean.getPassword() == null)
+			throw new GenericException("Invalid Password");
+		List<String> roles = new ArrayList<>();
+		roles.add("WORK_SHOP");
+		this.setRoles(roles);
+		this.setEmail(workShopBean.getEmail());
+		this.setContactNbr(workShopBean.getContactNbr());
+		this.setPassword(workShopBean.getPassword());
+		this.setwAge(workShopBean.getwAge());
+		this.setwVehicleBrandsRepaired(workShopBean.getwVehicleBrandsRepaired());
+		this.setwOtherBranchNumber(workShopBean.getwOtherBranchNumber());
+//		this.setwOAddress(workShopBean.getwOAddress);
+		this.setwMRevenue(workShopBean.getwMRevenue());
+		this.setwSMechs(workShopBean.getwSMechs());
+		this.setwMechs(workShopBean.getwMechs());
+		this.setwHelpers(workShopBean.getwHelpers());
+		this.setwWashers(workShopBean.getwWashers());
+		this.setwVehicleTypesRepaired(workShopBean.getwVehicleTypesRepaired());
+		this.setwServicesProvided(workShopBean.getwServicesProvided());
+		this.setwFacilities(workShopBean.getwFacilities());
+		this.setAppointmentDate(workShopBean.getAppointmentDate());
+		this.setwLocation(workShopBean.getwLocation());
+		return this;
 	}
 
 }

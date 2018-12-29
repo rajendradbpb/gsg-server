@@ -1,5 +1,8 @@
 package com.gsg.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import com.gsg.error.GenericException;
 import com.gsg.error.ResourceNotFoundException;
 import com.gsg.mongo.model.AppUser;
 import com.gsg.mongo.model.LoginBean;
+import com.gsg.mongo.model.WorkShopBean;
 import com.gsg.services.AppUserService;
 import com.gsg.services.LoginService;
 import com.gsg.utilities.OtpResponse;
@@ -120,7 +124,37 @@ public class LoginController {
 		}
 
 	}
+	@PostMapping("/ws/register")
+	ResponseEntity<WorkShopBean> registerWorkShop(@RequestBody WorkShopBean workShopBean) throws  GenericException {
+		try {
+			logger.info("LoginController.registerWorkShop()");
+			String contactNbr = workShopBean.getContactNbr();
+			AppUser user = userService.getUserByContactNbr(contactNbr);
 
+			if (user != null) {
+				throw new GenericException("Mobile nbr is already registered.");
+			// loginDtl.setMsg("Mobile nbr is already registered.");
+			// loginDtl.setStatus("FAILURE");
+
+				//return new ResponseWrapper<>(workShopBean.getMsg(), HttpStatus.CONFLICT, workShopBean).sendResponse();
+			}
+		}
+		catch(ResourceNotFoundException ex) {
+			// user not registered add new user
+			List<String> roles = new ArrayList<>();
+			roles.add("WORK_SHOP");
+			AppUser user = new AppUser().createWorkShopUser(workShopBean);
+			userService.registerUser(user);
+			workShopBean.setMsg("User Created");
+			
+			return new ResponseWrapper<>(workShopBean.getMsg(), HttpStatus.CREATED, workShopBean).sendResponse();
+			
+		}
+		catch(GenericException ex) {
+			return new ResponseWrapper<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, workShopBean).sendResponse();
+		}
+		return null;
+	}
 	@PostMapping("/preresetpwd/{contactNo}")
 	ResponseEntity<?> preResetPassword(@RequestBody LoginBean loginDtl) {
 		logger.info("LoginController.preResetPassword()");
