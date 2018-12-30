@@ -133,16 +133,11 @@ public class LoginController {
 
 			if (user != null) {
 				throw new GenericException("Mobile nbr is already registered.");
-			// loginDtl.setMsg("Mobile nbr is already registered.");
-			// loginDtl.setStatus("FAILURE");
-
-				//return new ResponseWrapper<>(workShopBean.getMsg(), HttpStatus.CONFLICT, workShopBean).sendResponse();
 			}
 		}
 		catch(ResourceNotFoundException ex) {
 			// user not registered add new user
-			List<String> roles = new ArrayList<>();
-			roles.add("WORK_SHOP");
+			
 			AppUser user = new AppUser().createWorkShopUser(workShopBean);
 			userService.registerUser(user);
 			workShopBean.setMsg("User Created");
