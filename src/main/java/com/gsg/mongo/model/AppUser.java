@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.gsg.constants.AppUserConst;
 import com.gsg.error.GenericException;
 import com.gsg.mongo.model.master.SchemeData;
 import com.ibm.icu.math.BigDecimal;
@@ -82,8 +83,22 @@ public class AppUser extends Auditable {
 	private List<String> wServicesProvided;
 	private List<String> wFacilities;
 	private Date appointmentDate;
-	private MapLocation wLocation;
+	private String wsCreatedBy; // get UserId created workshop
+	private String wsStatus;
 	
+	
+	public String getWsStatus() {
+		return wsStatus;
+	}
+	public void setWsStatus(String wsStatus) {
+		this.wsStatus = wsStatus;
+	}
+	public String getWsCreatedBy() {
+		return wsCreatedBy;
+	}
+	public void setWsCreatedBy(String wsCreatedBy) {
+		this.wsCreatedBy = wsCreatedBy;
+	}
 	public AppUser(String email, String contactNbr, String password) {
 		this.email = email;
 		this.password = password;
@@ -374,13 +389,14 @@ public class AppUser extends Auditable {
 	public void setAppointmentDate(Date appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
-	public MapLocation getwLocation() {
-		return wLocation;
-	}
-	public void setwLocation(MapLocation wLocation) {
-		this.wLocation = wLocation;
-	}
+//	public MapLocation getwLocation() {
+//		return wLocation;
+//	}
+//	public void setwLocation(MapLocation wLocation) {
+//		this.wLocation = wLocation;
+//	}
 
+	
 	@JsonInclude(Include.NON_EMPTY)
 	@Getter
 	@Setter
@@ -578,38 +594,6 @@ public class AppUser extends Auditable {
 
 	}
 
-	/*
-	 * Used to create workshop specific object from AppUser object with setter 
-	 * */
-	public AppUser createWorkShopUser() throws GenericException{
-		// validation for server end fields
-		if(this.getEmail() == null)
-			throw new GenericException("Invalid Email");
-		if(this.getContactNbr() == null)
-			throw new GenericException("Invalid ContactNbr");
-		if(this.getPassword() == null)
-			throw new GenericException("Invalid Password");
-		List<String> roles = new ArrayList<>();
-		roles.add("WORK_SHOP");
-		this.setRoles(roles);
-		this.setEmail(this.getEmail());
-		this.setContactNbr(this.getContactNbr());
-		this.setPassword(this.getPassword());
-		this.setwAge(this.getwAge());
-		this.setwVehicleBrandsRepaired(this.getwVehicleBrandsRepaired());
-		this.setwOtherBranchNumber(this.getwOtherBranchNumber());
-//		this.setwOAddress(workShopBean.getwOAddress);
-		this.setwMRevenue(this.getwMRevenue());
-		this.setwSMechs(this.getwSMechs());
-		this.setwMechs(this.getwMechs());
-		this.setwHelpers(this.getwHelpers());
-		this.setwWashers(this.getwWashers());
-		this.setwVehicleTypesRepaired(this.getwVehicleTypesRepaired());
-		this.setwServicesProvided(this.getwServicesProvided());
-		this.setwFacilities(this.getwFacilities());
-		this.setAppointmentDate(this.getAppointmentDate());
-		this.setwLocation(this.getwLocation());
-		return this;
-	}
+	
 
 }

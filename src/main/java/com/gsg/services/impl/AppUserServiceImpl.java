@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import com.gsg.constants.AppUserConst;
 import com.gsg.error.GenericException;
 import com.gsg.error.ResourceNotFoundException;
 import com.gsg.mongo.model.AppUser;
@@ -153,7 +154,9 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 		String userId = String.valueOf(counterRepository.findAndModifySeq("userid").getSeq());
 
 		usr.setUserId(userId);
-		usr.setPassword(bCryptPasswordEncoder.encode(usr.getPassword()));
+		if(!usr.getRoles().contains("ROLE_WORK_SHOP")) {
+			usr.setPassword(bCryptPasswordEncoder.encode(usr.getPassword())); // skip password for intiating work shop user regd
+		}
 		// Default Value
 		if (!usr.getRoles().contains("ROLE_USER")) {
 			usr.getRoles().add("ROLE_USER");
@@ -166,7 +169,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
 		return usr;
 	}
-
+	
 	@Override
 	public AppUser updateUser(AppUser user) throws ResourceNotFoundException {
 

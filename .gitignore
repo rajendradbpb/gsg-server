@@ -4,3 +4,4 @@
 *.ear
 *.jar
 *.clsss
+/bin/

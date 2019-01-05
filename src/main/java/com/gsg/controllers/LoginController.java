@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gsg.component.ResponseWrapper;
+import com.gsg.constants.AppUserConst;
 import com.gsg.error.GenericException;
 import com.gsg.error.ResourceNotFoundException;
 import com.gsg.mongo.model.AppUser;
@@ -137,10 +138,8 @@ public class LoginController {
 		}
 		catch(ResourceNotFoundException ex) {
 			// user not registered add new user
-			
-			reqUser.createWorkShopUser();
+			createWorkShopUser(reqUser);
 			userService.registerUser(reqUser);
-			
 			return new ResponseWrapper<>("WorkShop user created", HttpStatus.CREATED, reqUser).sendResponse();
 			
 		}
@@ -149,6 +148,26 @@ public class LoginController {
 		}
 		return null;
 	}
+	/*
+	 * Used to create workshop specific object from AppUser object with setter 
+	 * */
+	public AppUser createWorkShopUser(AppUser appUser) throws GenericException{
+		// validation for server end fields
+		if(appUser.getEmail() == null)
+			throw new GenericException("Invalid Email");
+		if(appUser.getContactNbr() == null)
+			throw new GenericException("Invalid ContactNbr");
+		if(appUser.getWsCreatedBy() == null)
+			throw new GenericException("Invalid Get id");
+//		if(this.getPassword() == null)
+//			throw new GenericException("Invalid Password");
+		List<String> roles = new ArrayList<>();
+		roles.add("ROLE_WORK_SHOP");
+		appUser.setRoles(roles);
+		appUser.setWsStatus(AppUserConst.STATUS_PENDING); // default status is pending
+		return appUser;
+	}
+	
 	@PostMapping("/preresetpwd/{contactNo}")
 	ResponseEntity<?> preResetPassword(@RequestBody LoginBean loginDtl) {
 		logger.info("LoginController.preResetPassword()");
