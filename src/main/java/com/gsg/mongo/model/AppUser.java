@@ -581,34 +581,34 @@ public class AppUser extends Auditable {
 	/*
 	 * Used to create workshop specific object from AppUser object with setter 
 	 * */
-	public AppUser createWorkShopUser(WorkShopBean workShopBean) throws GenericException{
+	public AppUser createWorkShopUser() throws GenericException{
 		// validation for server end fields
-		if(workShopBean.getEmail() == null)
+		if(this.getEmail() == null)
 			throw new GenericException("Invalid Email");
-		if(workShopBean.getContactNbr() == null)
+		if(this.getContactNbr() == null)
 			throw new GenericException("Invalid ContactNbr");
-		if(workShopBean.getPassword() == null)
+		if(this.getPassword() == null)
 			throw new GenericException("Invalid Password");
 		List<String> roles = new ArrayList<>();
 		roles.add("WORK_SHOP");
 		this.setRoles(roles);
-		this.setEmail(workShopBean.getEmail());
-		this.setContactNbr(workShopBean.getContactNbr());
-		this.setPassword(workShopBean.getPassword());
-		this.setwAge(workShopBean.getwAge());
-		this.setwVehicleBrandsRepaired(workShopBean.getwVehicleBrandsRepaired());
-		this.setwOtherBranchNumber(workShopBean.getwOtherBranchNumber());
+		this.setEmail(this.getEmail());
+		this.setContactNbr(this.getContactNbr());
+		this.setPassword(this.getPassword());
+		this.setwAge(this.getwAge());
+		this.setwVehicleBrandsRepaired(this.getwVehicleBrandsRepaired());
+		this.setwOtherBranchNumber(this.getwOtherBranchNumber());
 //		this.setwOAddress(workShopBean.getwOAddress);
-		this.setwMRevenue(workShopBean.getwMRevenue());
-		this.setwSMechs(workShopBean.getwSMechs());
-		this.setwMechs(workShopBean.getwMechs());
-		this.setwHelpers(workShopBean.getwHelpers());
-		this.setwWashers(workShopBean.getwWashers());
-		this.setwVehicleTypesRepaired(workShopBean.getwVehicleTypesRepaired());
-		this.setwServicesProvided(workShopBean.getwServicesProvided());
-		this.setwFacilities(workShopBean.getwFacilities());
-		this.setAppointmentDate(workShopBean.getAppointmentDate());
-		this.setwLocation(workShopBean.getwLocation());
+		this.setwMRevenue(this.getwMRevenue());
+		this.setwSMechs(this.getwSMechs());
+		this.setwMechs(this.getwMechs());
+		this.setwHelpers(this.getwHelpers());
+		this.setwWashers(this.getwWashers());
+		this.setwVehicleTypesRepaired(this.getwVehicleTypesRepaired());
+		this.setwServicesProvided(this.getwServicesProvided());
+		this.setwFacilities(this.getwFacilities());
+		this.setAppointmentDate(this.getAppointmentDate());
+		this.setwLocation(this.getwLocation());
 		return this;
 	}
 

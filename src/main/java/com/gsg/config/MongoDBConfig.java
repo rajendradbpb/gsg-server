@@ -44,14 +44,14 @@ public class MongoDBConfig {
 	    		   //Collections.singletonList(new ServerAddress("localhost", 27017)),
 	    		   //Collections.singletonList(MongoCredential.createScramSha1Credential("myUserAdmin", "gsg", "abc123".toCharArray())));
 //	    		   new MongoClientURI("mongodb://gsgadmin:gsgadmin@ds131137.mlab.com:31137/gsg")); // prod
-	    		   new MongoClientURI("mongodb://gsgadmin:gsgadmin@ds225028.mlab.com:25028/gsg-test")); // test
-//	    		   new MongoClientURI("mongodb://localhost:27017/")); // local
+//	    		   new MongoClientURI("mongodb://gsgadmin:gsgadmin@ds225028.mlab.com:25028/gsg-test")); // test
+	    		   new MongoClientURI("mongodb://localhost:27017/")); // local
 	       
 	   }
 	 
 	 public @Bean MongoTemplate mongoTemplate() {
 //	      return new MongoTemplate(mongoClient(), "gsg"); // prod
-		 return new MongoTemplate(mongoClient(), "gsg-test"); // test
-//		 return new MongoTemplate(mongoClient(), "gsg-test"); // local
+//		 return new MongoTemplate(mongoClient(), "gsg-test"); // test
+		 return new MongoTemplate(mongoClient(), "gsg-test"); // local
 	  }
 }

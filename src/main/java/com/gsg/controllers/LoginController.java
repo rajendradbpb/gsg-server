@@ -125,10 +125,10 @@ public class LoginController {
 
 	}
 	@PostMapping("/ws/register")
-	ResponseEntity<WorkShopBean> registerWorkShop(@RequestBody WorkShopBean workShopBean) throws  GenericException {
+	ResponseEntity<AppUser> registerWorkShop(@RequestBody  AppUser reqUser) throws  GenericException {
 		try {
 			logger.info("LoginController.registerWorkShop()");
-			String contactNbr = workShopBean.getContactNbr();
+			String contactNbr = reqUser.getContactNbr();
 			AppUser user = userService.getUserByContactNbr(contactNbr);
 
 			if (user != null) {
@@ -138,15 +138,14 @@ public class LoginController {
 		catch(ResourceNotFoundException ex) {
 			// user not registered add new user
 			
-			AppUser user = new AppUser().createWorkShopUser(workShopBean);
-			userService.registerUser(user);
-			workShopBean.setMsg("User Created");
+			reqUser.createWorkShopUser();
+			userService.registerUser(reqUser);
 			
-			return new ResponseWrapper<>(workShopBean.getMsg(), HttpStatus.CREATED, workShopBean).sendResponse();
+			return new ResponseWrapper<>("WorkShop user created", HttpStatus.CREATED, reqUser).sendResponse();
 			
 		}
 		catch(GenericException ex) {
-			return new ResponseWrapper<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, workShopBean).sendResponse();
+			return new ResponseWrapper<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, reqUser).sendResponse();
 		}
 		return null;
 	}
