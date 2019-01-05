@@ -30,6 +30,7 @@ public interface AppUserService {
 	AppUser registerUser(AppUser usr) throws GenericException;
 
 	AppUser updateUserById(String userId, AppUser user) throws ResourceNotFoundException;
+	AppUser updateWorkShopStatus(String userId, String status) throws ResourceNotFoundException,GenericException;
 
 	AppUser updateUser(AppUser user) throws ResourceNotFoundException;
 

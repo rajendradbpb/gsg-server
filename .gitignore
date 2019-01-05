@@ -1,6 +1,7 @@
 
 /target/
 /target/*.class
+/target/*.properties
 *.ear
 *.jar
 *.clsss

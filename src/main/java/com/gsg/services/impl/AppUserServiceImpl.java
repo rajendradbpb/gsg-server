@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Circle;
 import org.springframework.data.mongodb.core.geo.Sphere;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import com.gsg.component.ResponseWrapper;
 import com.gsg.constants.AppUserConst;
 import com.gsg.error.GenericException;
 import com.gsg.error.ResourceNotFoundException;
@@ -198,6 +200,8 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 		this.appUserRepository.delete(userId);
 	}
 
+	
+
 	@Override
 	public void deleteAllUser() {
 		logger.info("AppUserServiceImpl.deleteAllUser()");
@@ -322,4 +326,35 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 		return appUserRepository.save(user);
 	
 	}
+	
+	/*
+	 * Workshop service starts
+	 * */
+	@Override
+	public AppUser updateWorkShopStatus(String userId, String status) throws ResourceNotFoundException,GenericException {
+		// TODO Auto-generated method stub
+		logger.info("AppUserServiceImpl.updateWorkShopStatus()");
+
+		AppUser user = getByUserID(userId);
+		switch (status) {
+		case "pending":
+		case "progress":
+		case "rejected":
+			user.setWsStatus(status);
+			user = appUserRepository.save(user);
+			break;
+		case "completed":
+			// reset password
+			user.setPassword(bCryptPasswordEncoder.encode(AppUserConst.DEFAULT_PASSWORD));
+			user.setWsStatus(status);
+			user = appUserRepository.save(user);
+			break;
+
+		default:
+			throw new GenericException("User should be Service Engineer");
+//			break;
+		}
+		return user;
+	}
+	
 }

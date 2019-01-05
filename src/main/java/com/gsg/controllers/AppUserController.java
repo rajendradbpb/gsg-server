@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gsg.component.ResponseWrapper;
+import com.gsg.constants.AppUserConst;
 import com.gsg.error.GenericException;
 import com.gsg.error.ResourceNotFoundException;
 import com.gsg.mongo.model.AppUser;
@@ -160,5 +161,22 @@ public class AppUserController {
 
 		List<CategoryCount> categoryCount = userService.getUserCountByRole();
 		return new ResponseWrapper<>("Ticket Counts", HttpStatus.OK, categoryCount).sendResponse();
+	}
+	
+	/*
+	 * Workshop services starts
+	 * 
+	 * */
+	@PutMapping("/ws/status")
+	ResponseEntity<AppUser> updateWorkShopStatus(@RequestBody AppUser user)
+			throws ResourceNotFoundException {
+		logger.info("AppUserController.updateWorkshopUserById()");
+		try {
+			user =  userService.updateWorkShopStatus(user.getUserId(),user.getWsStatus());
+			return new ResponseWrapper<>("Users Details updated", HttpStatus.OK, user).sendResponse();
+			
+		} catch (GenericException e) {
+			return new ResponseWrapper<>("Users Details updated", HttpStatus.BAD_REQUEST, user).sendResponse();
+		}
 	}
 }
