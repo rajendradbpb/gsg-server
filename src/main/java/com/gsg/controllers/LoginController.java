@@ -67,6 +67,27 @@ public class LoginController {
 		// return new ResponseEntity<OtpResponse>(otpRes, HttpStatus.OK);
 	}
 
+	@GetMapping("/validateContactNbr/{contactNbr}")
+	ResponseEntity validateContactNbr(@PathVariable String contactNbr) throws GenericException {
+		// mobile,email
+		logger.info("LoginController.validateContactNbr()");
+
+		try {
+			AppUser user = userService.getUserByContactNbr(contactNbr);
+			if (user != null)
+				throw new GenericException("Mobile nbr is already registered.");
+			// loginDtl.setMsg("Mobile nbr is already registered.");
+			// loginDtl.setStatus("FAILURE");
+
+			return new ResponseWrapper<>("Mobile No already exists", HttpStatus.CONFLICT).sendResponse();
+			// return new ResponseEntity<>(loginDtl, HttpStatus.CONFLICT);
+
+		} catch (ResourceNotFoundException dex) {
+			// user not present - success
+			return new ResponseWrapper<>("Mobile No is valid", HttpStatus.OK).sendResponse();
+		}
+	}
+	
 	@PostMapping("/preregister")
 	ResponseEntity<LoginBean> preRegister(@RequestBody LoginBean loginDtl) throws GenericException {
 		// mobile,email

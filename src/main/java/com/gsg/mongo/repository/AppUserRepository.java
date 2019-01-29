@@ -19,7 +19,7 @@ public interface AppUserRepository extends MongoRepository<AppUser, String>,AppU
 //	@Query(value = "{}", fields = "{name : 1}")
 //    List<AppUser> findNameAndId();
 
-	@Query(value = "{'roles' : { $in : [ ?0] }}}", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, contactNbr:1,email:1, serviceArea:1  }" )
+	@Query(value = "{'roles' : { $in : [ ?0] }}}", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, contactNbr:1,email:1, serviceArea:1,wsStatus:1  }" )
 	List<AppUser> findUsersByroleDetails(String role);
 
 	@Query(value = "{}", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, roles:1 }" )

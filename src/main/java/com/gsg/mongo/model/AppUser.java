@@ -71,22 +71,53 @@ public class AppUser extends Auditable {
 //	private String wMobile ;
 	private float wAge;
 	private List<String> wVehicleBrandsRepaired;
-	private List<String> wOtherBranchNumber;
-	private List<AddressBook> wOAddress = new ArrayList<>();
+	private int wOtherBranchNumber;
+	private List<String> wOAddress;
 	private int wAvgCarsRptDly;
 	private double wMRevenue;
-	private List<String> wSMechs;
-	private List<String> wMechs;
-	private List<String> wHelpers;
-	private List<String> wWashers;
+	private int wSMechs;
+	private int wMechs;
+	private int wHelpers;
+	private int wWashers;
 	private List<String> wVehicleTypesRepaired;
 	private List<String> wServicesProvided;
 	private List<String> wFacilities;
 	private Date appointmentDate;
+	private String appointmentTime;
 	private String wsCreatedBy; // get UserId created workshop
 	private String wsStatus;
 	
 	
+	public List<String> getwOAddress() {
+		return wOAddress;
+	}
+	public void setwOAddress(List<String> wOAddress) {
+		this.wOAddress = wOAddress;
+	}
+	public int getwSMechs() {
+		return wSMechs;
+	}
+	public void setwSMechs(int wSMechs) {
+		this.wSMechs = wSMechs;
+	}
+	public int getwMechs() {
+		return wMechs;
+	}
+	public void setwMechs(int wMechs) {
+		this.wMechs = wMechs;
+	}
+	public int getwHelpers() {
+		return wHelpers;
+	}
+	public void setwHelpers(int wHelpers) {
+		this.wHelpers = wHelpers;
+	}
+	public int getwWashers() {
+		return wWashers;
+	}
+	public void setwWashers(int wWashers) {
+		this.wWashers = wWashers;
+	}
 	public String getWsStatus() {
 		return wsStatus;
 	}
@@ -317,17 +348,19 @@ public class AppUser extends Auditable {
 	public void setwVehicleBrandsRepaired(List<String> wVehicleBrandsRepaired) {
 		this.wVehicleBrandsRepaired = wVehicleBrandsRepaired;
 	}
-	public List<String> getwOtherBranchNumber() {
+	
+	
+	public int getwOtherBranchNumber() {
 		return wOtherBranchNumber;
 	}
-	public void setwOtherBranchNumber(List<String> wOtherBranchNumber) {
+	public void setwOtherBranchNumber(int wOtherBranchNumber) {
 		this.wOtherBranchNumber = wOtherBranchNumber;
 	}
-	public List<AddressBook> getwOAddress() {
-		return wOAddress;
+	public String getAppointmentTime() {
+		return appointmentTime;
 	}
-	public void setwOAddress(List<AddressBook> wOAddress) {
-		this.wOAddress = wOAddress;
+	public void setAppointmentTime(String appointmentTime) {
+		this.appointmentTime = appointmentTime;
 	}
 	public int getwAvgCarsRptDly() {
 		return wAvgCarsRptDly;
@@ -340,30 +373,6 @@ public class AppUser extends Auditable {
 	}
 	public void setwMRevenue(double wMRevenue) {
 		this.wMRevenue = wMRevenue;
-	}
-	public List<String> getwSMechs() {
-		return wSMechs;
-	}
-	public void setwSMechs(List<String> wSMechs) {
-		this.wSMechs = wSMechs;
-	}
-	public List<String> getwMechs() {
-		return wMechs;
-	}
-	public void setwMechs(List<String> wMechs) {
-		this.wMechs = wMechs;
-	}
-	public List<String> getwHelpers() {
-		return wHelpers;
-	}
-	public void setwHelpers(List<String> wHelpers) {
-		this.wHelpers = wHelpers;
-	}
-	public List<String> getwWashers() {
-		return wWashers;
-	}
-	public void setwWashers(List<String> wWashers) {
-		this.wWashers = wWashers;
 	}
 	public List<String> getwVehicleTypesRepaired() {
 		return wVehicleTypesRepaired;
