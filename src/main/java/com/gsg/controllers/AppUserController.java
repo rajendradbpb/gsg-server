@@ -162,7 +162,23 @@ public class AppUserController {
 		List<CategoryCount> categoryCount = userService.getUserCountByRole();
 		return new ResponseWrapper<>("Ticket Counts", HttpStatus.OK, categoryCount).sendResponse();
 	}
-	
+	/*
+	 * Workshop based on status
+	 * 
+	 * */
+	@GetMapping("/ws/{wsStatus}")
+	ResponseEntity<List<AppUser>> getWorkShopByStatus(@PathVariable("wsStatus") String wsStatus)
+			throws ResourceNotFoundException {
+		logger.info("AppUserController.getWorkShopByStatus()");
+		List<AppUser> users = null;
+		try {
+			users =  userService.getWorkShopByStatus(wsStatus);
+			return new ResponseWrapper<List<AppUser>>("Users Details updated", HttpStatus.OK, users).sendResponse();
+			
+		} catch (GenericException e) {
+			return new ResponseWrapper<List<AppUser>>("Users Details updated", HttpStatus.BAD_REQUEST, users).sendResponse();
+		}
+	}
 	/*
 	 * Workshop services starts
 	 * 

@@ -31,7 +31,8 @@ public interface AppUserService {
 
 	AppUser updateUserById(String userId, AppUser user) throws ResourceNotFoundException;
 	AppUser updateWorkShopStatus(String userId, String status) throws ResourceNotFoundException,GenericException;
-
+	List<AppUser> getWorkShopByStatus(String wsStatus) throws ResourceNotFoundException,GenericException;
+	
 	AppUser updateUser(AppUser user) throws ResourceNotFoundException;
 
 	void deleteUser(String userId);

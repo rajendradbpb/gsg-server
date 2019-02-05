@@ -356,5 +356,19 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 		}
 		return user;
 	}
+
+	@Override
+	public List<AppUser> getWorkShopByStatus(String wsStatus) throws ResourceNotFoundException, GenericException {
+		logger.info("AppUserServiceImpl.getWorkShopByStatus()");
+		List<AppUser> user = this.appUserRepository.getWorkShopByStatus(wsStatus);
+
+		if (ObjectUtils.isEmpty(user)) {
+			throw new ResourceNotFoundException(AppUser.class, "work shop status", String.valueOf(wsStatus));
+		}
+		logger.info("UserService.getWorkShopByStatus()-end");
+		return user;
+	}
+	
+	
 	
 }

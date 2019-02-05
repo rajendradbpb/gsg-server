@@ -27,4 +27,7 @@ public interface AppUserRepository extends MongoRepository<AppUser, String>,AppU
 	
 	List<AppUser> findByRolesInAndServiceAreaMapLocationWithin(String role, Sphere circle);
 	
+	@Query(value = "{'roles' : { $in : ['ROLE_WORK_SHOP'] }, 'wsStatus':?0}", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, contactNbr:1,email:1, serviceArea:1,wsStatus:1  }")
+	List<AppUser> getWorkShopByStatus(String wsStatus);
+	
 }

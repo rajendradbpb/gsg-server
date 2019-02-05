@@ -86,6 +86,7 @@ public class AppUser extends Auditable {
 	private String appointmentTime;
 	private String wsCreatedBy; // get UserId created workshop
 	private String wsStatus;
+//	private List<WsDoc> ws
 	
 	
 	public List<String> getwOAddress() {
