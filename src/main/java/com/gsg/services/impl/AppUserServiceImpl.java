@@ -388,6 +388,17 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 		user = appUserRepository.save(user);
 		return user;
 	}
+
+	@Override
+	public List<AppUser> getNearestWorkShop(int distance, String location)
+			throws ResourceNotFoundException, GenericException {
+		logger.info("AppUserServiceImpl.getNearestWorkShop()");
+		String[] temp = location.split(",");
+		double[] dLocation = new double[] {Double.parseDouble(temp[0]),Double.parseDouble(temp[1])};
+		List<AppUser> users = this.appUserRepository.getWorkShopByLocation(distance, dLocation);
+		logger.info("UserService.getWorkShopByStatus()-end");
+		return users;
+	}
 	
 	
 	

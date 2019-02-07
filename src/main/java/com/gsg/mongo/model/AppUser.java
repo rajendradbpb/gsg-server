@@ -87,9 +87,19 @@ public class AppUser extends Auditable {
 	private String wsCreatedBy; // get UserId created workshop
 	private String wsStatus;
 	private List<WsDoc> wsDocs;
+	private double[] coordinates;
 	
 	
 	
+	
+	
+	
+	public double[] getCoordinates() {
+		return coordinates;
+	}
+	public void setCoordinates(double[] coordinates) {
+		this.coordinates = coordinates;
+	}
 	public List<WsDoc> getWsDocs() {
 		return wsDocs;
 	}

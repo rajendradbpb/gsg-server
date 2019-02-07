@@ -29,5 +29,7 @@ public interface AppUserRepository extends MongoRepository<AppUser, String>,AppU
 	
 	@Query(value = "{'roles' : { $in : ['ROLE_WORK_SHOP'] }, 'wsStatus':?0}", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, contactNbr:1,email:1, serviceArea:1,wsStatus:1  }")
 	List<AppUser> getWorkShopByStatus(String wsStatus);
+	@Query(value = "{ 'coordinates': { '$nearSphere': { '$geometry': { 'type': 'Point', 'coordinates': ?1 }, '$maxDistance': ?0 } } }")
+	List<AppUser> getWorkShopByLocation(int distance, double[] location);
 	
 }

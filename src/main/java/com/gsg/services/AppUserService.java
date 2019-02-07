@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.gsg.error.GenericException;
 import com.gsg.error.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public interface AppUserService {
 	AppUser updateWorkShopStatus(String userId, String status) throws ResourceNotFoundException,GenericException;
 	AppUser updateWorkShopDocs(String userId, List<AppUser.WsDoc> wsDocs) throws ResourceNotFoundException,GenericException;
 	List<AppUser> getWorkShopByStatus(String wsStatus) throws ResourceNotFoundException,GenericException;
+	List<AppUser> getNearestWorkShop(int distance,String location) throws ResourceNotFoundException,GenericException;
 	
 	AppUser updateUser(AppUser user) throws ResourceNotFoundException;
 

@@ -212,7 +212,20 @@ public class AppUserController {
 			return new ResponseWrapper<>("Users Details updated", HttpStatus.BAD_REQUEST, user).sendResponse();
 		}
 	}
-	
+	@GetMapping("/nearestWorkShop/{distance}/{location}")
+	ResponseEntity<?> getNearestWorkShop(@PathVariable int distance,@PathVariable String location)
+			throws ResourceNotFoundException {
+		List<AppUser> users  = null;
+		try {
+		logger.info("AppUserController.getNearestWorkShop()");
+		users = userService.getNearestWorkShop(distance, location);
+		logger.info("AppUserController.getAllUser()-end");
+		return new ResponseWrapper<>("List of Users", HttpStatus.OK, users).sendResponse();
+		}
+		catch (GenericException e) {
+			return new ResponseWrapper<>("Users Details updated", HttpStatus.BAD_REQUEST, users).sendResponse();
+		}
+	}
 	/*
 	 * Workshop services ends
 	 * 
