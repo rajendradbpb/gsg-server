@@ -162,6 +162,13 @@ public class AppUserController {
 		List<CategoryCount> categoryCount = userService.getUserCountByRole();
 		return new ResponseWrapper<>("Ticket Counts", HttpStatus.OK, categoryCount).sendResponse();
 	}
+	
+	/*
+	 * Workshop services starts
+	 * 
+	 * */
+	
+	
 	/*
 	 * Workshop based on status
 	 * 
@@ -179,10 +186,7 @@ public class AppUserController {
 			return new ResponseWrapper<List<AppUser>>("Users Details updated", HttpStatus.BAD_REQUEST, users).sendResponse();
 		}
 	}
-	/*
-	 * Workshop services starts
-	 * 
-	 * */
+	
 	@PutMapping("/ws/status")
 	ResponseEntity<AppUser> updateWorkShopStatus(@RequestBody AppUser user)
 			throws ResourceNotFoundException {
@@ -195,4 +199,22 @@ public class AppUserController {
 			return new ResponseWrapper<>("Users Details updated", HttpStatus.BAD_REQUEST, user).sendResponse();
 		}
 	}
+	@PutMapping("/ws/updateDocs/{id}")
+	ResponseEntity<AppUser> updateWorkShopDocs(@PathVariable String id,@RequestBody List<AppUser.WsDoc> wsDocs)
+			throws ResourceNotFoundException {
+		logger.info("AppUserController.updateWorkShopDocs()");
+		AppUser user = null;
+		try {
+			user =  userService.updateWorkShopDocs(id, wsDocs);
+			return new ResponseWrapper<>("Users Details updated", HttpStatus.OK, user).sendResponse();
+			
+		} catch (GenericException e) {
+			return new ResponseWrapper<>("Users Details updated", HttpStatus.BAD_REQUEST, user).sendResponse();
+		}
+	}
+	
+	/*
+	 * Workshop services ends
+	 * 
+	 * */
 }

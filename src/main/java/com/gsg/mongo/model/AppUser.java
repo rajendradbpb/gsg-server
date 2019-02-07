@@ -86,9 +86,16 @@ public class AppUser extends Auditable {
 	private String appointmentTime;
 	private String wsCreatedBy; // get UserId created workshop
 	private String wsStatus;
-//	private List<WsDoc> ws
+	private List<WsDoc> wsDocs;
 	
 	
+	
+	public List<WsDoc> getWsDocs() {
+		return wsDocs;
+	}
+	public void setWsDocs(List<WsDoc> wsDocs) {
+		this.wsDocs = wsDocs;
+	}
 	public List<String> getwOAddress() {
 		return wOAddress;
 	}
@@ -406,6 +413,44 @@ public class AppUser extends Auditable {
 //		this.wLocation = wLocation;
 //	}
 
+	
+	@JsonInclude(Include.NON_EMPTY)
+	@Getter
+	@Setter
+	@ToString
+	public static class WsDoc{
+		private String docType;
+		private String docStatus;
+		private String reviewer;
+		private String comment;
+		private int udatedBy;
+		
+		public String getDocType() {
+			return docType;
+		}
+		public void setDocType(String docType) {
+			this.docType = docType;
+		}
+		public String getDocStatus() {
+			return docStatus;
+		}
+		public void setDocStatus(String docStatus) {
+			this.docStatus = docStatus;
+		}
+		public String getReviewer() {
+			return reviewer;
+		}
+		public void setReviewer(String reviewer) {
+			this.reviewer = reviewer;
+		}
+		public String getComment() {
+			return comment;
+		}
+		public void setComment(String comment) {
+			this.comment = comment;
+		}
+		
+	}
 	
 	@JsonInclude(Include.NON_EMPTY)
 	@Getter

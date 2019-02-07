@@ -28,6 +28,7 @@ import com.gsg.mongo.model.AppUser;
 import com.gsg.mongo.model.AppUser.AddressBook;
 import com.gsg.mongo.model.AppUser.MapLocation;
 import com.gsg.mongo.model.AppUser.ServiceArea;
+import com.gsg.mongo.model.AppUser.WsDoc;
 import com.gsg.mongo.model.CategoryCount;
 import com.gsg.mongo.model.LoginBean;
 import com.gsg.mongo.model.UserVehicle;
@@ -336,22 +337,32 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 		logger.info("AppUserServiceImpl.updateWorkShopStatus()");
 
 		AppUser user = getByUserID(userId);
+		String message = null;
 		switch (status) {
 		case "pending":
 		case "progress":
 		case "rejected":
+		case "onHold":
 			user.setWsStatus(status);
 			user = appUserRepository.save(user);
+			// Send Message upon creation
+			message = gsgCommon.getMsg("ws.statusUpdate");
+			message = message.replaceAll("\\{name}", user.getFirstName()).replaceAll("\\{status}", status);
+			smsUtility.sendStatusMessageToUser(message, user.getContactNbr());
 			break;
 		case "completed":
 			// reset password
 			user.setPassword(bCryptPasswordEncoder.encode(AppUserConst.DEFAULT_PASSWORD));
 			user.setWsStatus(status);
 			user = appUserRepository.save(user);
+			// Send Message upon creation
+			message = gsgCommon.getMsg("ws.statusUpdate");
+			message = message.replaceAll("\\{name}", user.getFirstName()).replaceAll("\\{password}", AppUserConst.DEFAULT_PASSWORD);
+			smsUtility.sendStatusMessageToUser(message, user.getContactNbr());
 			break;
 
 		default:
-			throw new GenericException("User should be Service Engineer");
+			throw new GenericException("Not a valid status for workshop");
 //			break;
 		}
 		return user;
@@ -366,6 +377,15 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 			throw new ResourceNotFoundException(AppUser.class, "work shop status", String.valueOf(wsStatus));
 		}
 		logger.info("UserService.getWorkShopByStatus()-end");
+		return user;
+	}
+
+	@Override
+	public AppUser updateWorkShopDocs(String userId, List<WsDoc> wsDocs)
+			throws ResourceNotFoundException, GenericException {
+		AppUser user = getByUserID(userId);
+		user.setWsDocs(wsDocs);
+		user = appUserRepository.save(user);
 		return user;
 	}
 	
