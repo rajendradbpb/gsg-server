@@ -88,12 +88,33 @@ public class AppUser extends Auditable {
 	private String wsStatus;
 	private List<WsDoc> wsDocs;
 	private double[] coordinates;
+	private String primaryGet;
+	private String[] asstGet;
+	private int defaultRating;
 	
 	
 	
 	
 	
 	
+	public int getDefaultRating() {
+		return defaultRating;
+	}
+	public void setDefaultRating(int defaultRating) {
+		this.defaultRating = defaultRating;
+	}
+	public String getPrimaryGet() {
+		return primaryGet;
+	}
+	public void setPrimaryGet(String primaryGet) {
+		this.primaryGet = primaryGet;
+	}
+	public String[] getAsstGet() {
+		return asstGet;
+	}
+	public void setAsstGet(String[] asstGet) {
+		this.asstGet = asstGet;
+	}
 	public double[] getCoordinates() {
 		return coordinates;
 	}
@@ -161,6 +182,7 @@ public class AppUser extends Auditable {
 	}
 
 	public AppUser() {
+		defaultRating = 5;
 	}
 
 	public String getId() {

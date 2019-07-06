@@ -25,6 +25,8 @@ public interface AppUserService {
 	List<AppUser> getAllUserOfRole(String role);
 
 	AppUser getByUserID(String userId) throws ResourceNotFoundException;
+	AppUser getBasicDetailsById(String userId) throws ResourceNotFoundException;
+	List<AppUser> getBasicDetailsByIds(String[] userIds) throws ResourceNotFoundException;
 
 	AppUser getUserByContactNbr(String cotactNbr) throws ResourceNotFoundException;
 
@@ -33,6 +35,7 @@ public interface AppUserService {
 	AppUser updateUserById(String userId, AppUser user) throws ResourceNotFoundException;
 	AppUser updateWorkShopStatus(String userId, String status) throws ResourceNotFoundException,GenericException;
 	AppUser updateWorkShopDocs(String userId, List<AppUser.WsDoc> wsDocs) throws ResourceNotFoundException,GenericException;
+	AppUser updateGETDetails(AppUser appUser) throws ResourceNotFoundException,GenericException;
 	List<AppUser> getWorkShopByStatus(String wsStatus) throws ResourceNotFoundException,GenericException;
 	List<AppUser> getNearestWorkShop(int distance,String location) throws ResourceNotFoundException,GenericException;
 	

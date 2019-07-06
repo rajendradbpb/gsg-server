@@ -139,6 +139,32 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 	}
 
 	@Override
+	public AppUser getBasicDetailsById(String userId) throws ResourceNotFoundException {
+		logger.info("UserService.getBasicDetailsById()-start");
+
+		AppUser user = this.appUserRepository.getBasicDetailsById(userId);
+
+		if (ObjectUtils.isEmpty(user)) {
+			throw new ResourceNotFoundException(AppUser.class, "userId", userId);
+		}
+		logger.info("UserService.getBasicDetailsById()-end");
+		return user;
+	}
+	
+	@Override
+	public List<AppUser> getBasicDetailsByIds(String[] userIds) throws ResourceNotFoundException {
+		logger.info("UserService.getBasicDetailsById()-start");
+		
+		List<AppUser> users = this.appUserRepository.getBasicDetailsByIds(userIds);
+
+//		if (ObjectUtils.isEmpty(users)) {
+//			throw new Exception(AppUser.class, "users", users);
+//		}
+		logger.info("UserService.getBasicDetailsById()-end");
+		return users;
+	}
+
+	@Override
 	public AppUser getUserByContactNbr(String contactNbr) throws ResourceNotFoundException {
 		logger.info("AppUserServiceImpl.getUserByContactNbr()");
 		AppUser user = this.appUserRepository.findByContactNbr(contactNbr);
@@ -385,6 +411,15 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 			throws ResourceNotFoundException, GenericException {
 		AppUser user = getByUserID(userId);
 		user.setWsDocs(wsDocs);
+		user = appUserRepository.save(user);
+		return user;
+	}
+
+	@Override
+	public AppUser updateGETDetails(AppUser appUser) throws ResourceNotFoundException, GenericException {
+		AppUser user = getByUserID(appUser.getUserId());
+		user.setPrimaryGet(appUser.getPrimaryGet());
+		user.setAsstGet(appUser.getAsstGet());
 		user = appUserRepository.save(user);
 		return user;
 	}

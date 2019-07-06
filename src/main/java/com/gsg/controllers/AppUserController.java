@@ -71,6 +71,17 @@ public class AppUserController {
 		return new ResponseWrapper<>("Users Details", HttpStatus.OK, user).sendResponse();
 		// return new ResponseEntity<AppUser>(user, HttpStatus.OK);
 	}
+	
+	@GetMapping("/basic/{id}")
+	ResponseEntity<AppUser> getBasicDetailsById(@PathVariable("id") String userId) throws ResourceNotFoundException {
+		logger.info("AppUserController.getBasicDetailsById()");
+
+		AppUser user = userService.getBasicDetailsById(userId);
+		logger.info("Retrieved User >>" + user);
+
+		return new ResponseWrapper<>("Users Details", HttpStatus.OK, user).sendResponse();
+		// return new ResponseEntity<AppUser>(user, HttpStatus.OK);
+	}
 
 	@GetMapping("/contact/{contactNbr}")
 	ResponseEntity<AppUser> getUserByContact(@PathVariable("contactNbr") String contactNbr)
@@ -168,11 +179,6 @@ public class AppUserController {
 	 * 
 	 * */
 	
-	
-	/*
-	 * Workshop based on status
-	 * 
-	 * */
 	@GetMapping("/ws/{wsStatus}")
 	ResponseEntity<List<AppUser>> getWorkShopByStatus(@PathVariable("wsStatus") String wsStatus)
 			throws ResourceNotFoundException {
@@ -224,6 +230,19 @@ public class AppUserController {
 		}
 		catch (GenericException e) {
 			return new ResponseWrapper<>("Users Details updated", HttpStatus.BAD_REQUEST, users).sendResponse();
+		}
+	}
+	@PutMapping("/ws/updateGETDetails")
+	ResponseEntity<AppUser> updateGETDetails(@RequestBody AppUser appUser)
+			throws ResourceNotFoundException {
+		logger.info("AppUserController.updateWorkShopDocs()");
+		AppUser user = null;
+		try {
+			user =  userService.updateGETDetails(appUser);
+			return new ResponseWrapper<>("Users Details updated", HttpStatus.OK, user).sendResponse();
+			
+		} catch (GenericException e) {
+			return new ResponseWrapper<>("Users Details updated", HttpStatus.BAD_REQUEST, user).sendResponse();
 		}
 	}
 	/*

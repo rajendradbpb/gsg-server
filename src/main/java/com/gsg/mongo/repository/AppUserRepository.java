@@ -25,11 +25,17 @@ public interface AppUserRepository extends MongoRepository<AppUser, String>,AppU
 	@Query(value = "{}", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, roles:1 }" )
 	List<AppUser> getAllUserMinimum();
 	
+	@Query(value = "{'userId' : ?0}", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, roles:1 }" )
+	AppUser getBasicDetailsById(String userId);
+	
+	@Query(value = "{'userId' : { $in : [ ?0] } }", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, roles:1 }" )
+	List<AppUser> getBasicDetailsByIds(String[] userIds);
+	
 	List<AppUser> findByRolesInAndServiceAreaMapLocationWithin(String role, Sphere circle);
 	
 	@Query(value = "{'roles' : { $in : ['ROLE_WORK_SHOP'] }, 'wsStatus':?0}", fields = "{ userId:1, firstName:1, middleName:1, lastName:1, contactNbr:1,email:1, serviceArea:1,wsStatus:1  }")
 	List<AppUser> getWorkShopByStatus(String wsStatus);
-	@Query(value = "{ 'coordinates': { '$nearSphere': { '$geometry': { 'type': 'Point', 'coordinates': ?1 }, '$maxDistance': ?0 } } }")
+	@Query(value = "{ 'coordinates': { '$nearSphere': { '$geometry': { 'type': 'Point', 'coordinates': ?1 }, '$maxDistance': ?0 } }, 'wsStatus':'completed' }")
 	List<AppUser> getWorkShopByLocation(int distance, double[] location);
 	
 }
