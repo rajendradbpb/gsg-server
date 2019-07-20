@@ -59,7 +59,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		String userId = String.valueOf(counterRepo.findAndModifySeq("userid").getSeq());
 		
 		usr.setUserId(userId);
-		usr.setPassword(bCryptPasswordEncoder.encode("Welcome1@3"));
+		usr.setPassword(bCryptPasswordEncoder.encode(gsgCommon.getMsg("gsg.defaultPassword")));
 		// Default Value
 		if(usr.getRoles().isEmpty()){
 			usr.getRoles().add("ROLE_USER");
@@ -69,7 +69,9 @@ public class DashBoardServiceImpl implements DashBoardService {
 		this.appUserRepository.save(usr);
 		
 		// Send Message upon creation
-		smsUtility.sendStatusMessageToUser(gsgCommon.getMsg("user.cc.welcome"), usr.getContactNbr());
+		String message = gsgCommon.getMsg("user.cc.welcome");
+		message = message.replaceAll("\\{password}", gsgCommon.getMsg("gsg.defaultPassword"));
+		smsUtility.sendStatusMessageToUser(message, usr.getContactNbr());
 
 		return usr;
 	}

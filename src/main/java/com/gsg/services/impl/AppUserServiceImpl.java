@@ -357,6 +357,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 	/*
 	 * Workshop service starts
 	 * */
+	
 	@Override
 	public AppUser updateWorkShopStatus(String userId, String status) throws ResourceNotFoundException,GenericException {
 		// TODO Auto-generated method stub
@@ -368,7 +369,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 		case "pending":
 		case "progress":
 		case "rejected":
-		case "onHold":
+		case "onhold":
 			user.setWsStatus(status);
 			user = appUserRepository.save(user);
 			// Send Message upon creation
@@ -383,7 +384,9 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 			user = appUserRepository.save(user);
 			// Send Message upon creation
 			message = gsgCommon.getMsg("ws.statusUpdate");
-			message = message.replaceAll("\\{name}", user.getFirstName()).replaceAll("\\{password}", AppUserConst.DEFAULT_PASSWORD);
+			message = message.replaceAll("\\{name}", user.getFirstName())
+						.replaceAll("\\{password}", AppUserConst.DEFAULT_PASSWORD)
+						.replaceAll("\\{status}", status);
 			smsUtility.sendStatusMessageToUser(message, user.getContactNbr());
 			break;
 

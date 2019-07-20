@@ -60,7 +60,7 @@ public class MongoDBConfig {
 			break;
 		
 		case "prod":
-			 mongoClientURI = new MongoClientURI("mongodb://localhost:27017/"); // local
+			 mongoClientURI = new MongoClientURI("mongodb://gsgadmin:gsgadmin@ds131137.mlab.com:31137/gsg"); // prod
 			break;
 		
 
