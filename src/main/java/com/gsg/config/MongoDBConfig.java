@@ -73,8 +73,8 @@ public class MongoDBConfig {
 	       
 	   }
 	 public @Bean MongoTemplate mongoTemplate() {
-//	      return new MongoTemplate(mongoClient("prod"), "gsg"); // prod
-		 return new MongoTemplate(mongoClient("test"), "gsg-test"); // test
+	      return new MongoTemplate(mongoClient("prod"), "gsg"); // prod
+//		 return new MongoTemplate(mongoClient("test"), "gsg-test"); // test
 //		 return new MongoTemplate(mongoClient("local"), "gsg-test"); // local
 	  }
 }

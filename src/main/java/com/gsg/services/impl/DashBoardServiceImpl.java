@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import com.gsg.constants.AppUserConst;
 import com.gsg.error.GenericException;
 import com.gsg.mongo.model.AppUser;
 import com.gsg.mongo.repository.AppUserRepository;
@@ -59,7 +60,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		String userId = String.valueOf(counterRepo.findAndModifySeq("userid").getSeq());
 		
 		usr.setUserId(userId);
-		usr.setPassword(bCryptPasswordEncoder.encode(gsgCommon.getMsg("gsg.defaultPassword")));
+		usr.setPassword(bCryptPasswordEncoder.encode(AppUserConst.DEFAULT_PASSWORD));
 		// Default Value
 		if(usr.getRoles().isEmpty()){
 			usr.getRoles().add("ROLE_USER");
@@ -70,7 +71,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		
 		// Send Message upon creation
 		String message = gsgCommon.getMsg("user.cc.welcome");
-		message = message.replaceAll("\\{password}", gsgCommon.getMsg("gsg.defaultPassword"));
+		message = message.replaceAll("\\{password}", AppUserConst.DEFAULT_PASSWORD);
 		smsUtility.sendStatusMessageToUser(message, usr.getContactNbr());
 
 		return usr;
